@@ -70,25 +70,32 @@ export default function App() {
     if (status === 'high_risk') {
       return {
         label: 'High Risk',
-        className: 'bg-red-100 text-red-700'
+        icon: 'warning',
+        className: 'bg-red-100 text-red-600'
       }
     }
     if (status === 'action_required') {
       return {
         label: 'Action Required',
-        className: 'bg-amber-100 text-amber-700'
+        icon: 'assignment',
+        className: 'bg-amber-100 text-amber-600'
       }
     }
     return {
       label: 'Monitoring',
-      className: 'bg-blue-100 text-blue-700'
+      icon: 'visibility',
+      className: 'bg-blue-100 text-blue-600'
     }
   }
 
-  const getStatusLabel = (status: Patient['status']) => {
-    if (status === 'high_risk') return 'High Risk'
-    if (status === 'action_required') return 'Action Required'
-    return 'Monitoring'
+  const StatusBadge = ({ status }: { status: Patient['status'] }) => {
+    const badge = getStatusBadge(status)
+    return (
+      <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-[13px] font-medium ${badge.className}`}>
+        <span className="material-symbols-outlined">{badge.icon}</span>
+        <span>{badge.label}</span>
+      </span>
+    )
   }
 
   useEffect(() => {
@@ -271,7 +278,6 @@ export default function App() {
                 </div>
                 <div className="space-y-3">
                   {group.patients.map(p => {
-                    const badge = getStatusBadge(p.status)
                     return (
                       <div
                         key={p.id}
@@ -280,9 +286,7 @@ export default function App() {
                       >
                         <div className="mb-2 flex items-start justify-between gap-3">
                           <div className="font-semibold text-slate-900">{p.name}</div>
-                          <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${badge.className}`}>
-                            {badge.label}
-                          </span>
+                          <StatusBadge status={p.status} />
                         </div>
                         <div className="mb-2 text-sm text-slate-800">{p.whyNow}</div>
                         <div className="mb-3 text-sm text-slate-500">{p.impact}</div>
@@ -307,9 +311,7 @@ export default function App() {
                 <div>
                   <h3 className="text-xl font-semibold text-slate-900">{selected.name}</h3>
                   <div className="mt-2">
-                    <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${getStatusBadge(selected.status).className}`}>
-                      {getStatusLabel(selected.status)}
-                    </span>
+                    <StatusBadge status={selected.status} />
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
