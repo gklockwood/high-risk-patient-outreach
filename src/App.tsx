@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { seedPatients } from './data'
-import type { Patient } from './data'
+import { PrimaryButton } from './components/PrimaryButton.tsx'
+import { seedPatients } from './data.ts'
+import type { Patient } from './data.ts'
 
 const KEY = 'patients'
 const defaultFormState: Omit<Patient, 'id'> = {
@@ -252,13 +253,9 @@ export default function App() {
             >
               Reset Demo Data
             </button>
-            <button
-              type="button"
-              onClick={openAddModal}
-              className="h-10 rounded-md bg-slate-900 px-4 text-sm font-medium text-white transition hover:bg-slate-800"
-            >
+            <PrimaryButton type="button" onClick={openAddModal}>
               Add Patient
-            </button>
+            </PrimaryButton>
           </div>
         </div>
       </header>
@@ -290,12 +287,12 @@ export default function App() {
                         </div>
                         <div className="mb-2 text-sm text-slate-800">{p.whyNow}</div>
                         <div className="mb-3 text-sm text-slate-500">{p.impact}</div>
-                        <button
+                        <PrimaryButton
                           type="button"
-                          className="rounded-md bg-slate-900 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-slate-800"
+                          onClick={e => e.stopPropagation()}
                         >
                           {p.action}
-                        </button>
+                        </PrimaryButton>
                       </div>
                     )
                   })}
@@ -343,12 +340,9 @@ export default function App() {
                 </div>
                 <div>
                   <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Recommended Action</h4>
-                  <button
-                    type="button"
-                    className="mt-2 rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
-                  >
+                  <PrimaryButton type="button" className="mt-2">
                     {selected.action}
-                  </button>
+                  </PrimaryButton>
                 </div>
                 <div>
                   <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Recent Activity</h4>
@@ -439,12 +433,9 @@ export default function App() {
                 >
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
-                >
+                <PrimaryButton type="submit">
                   {modalMode === 'add' ? 'Add Patient' : 'Save Changes'}
-                </button>
+                </PrimaryButton>
               </div>
             </form>
           </div>
